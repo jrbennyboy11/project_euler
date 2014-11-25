@@ -46,7 +46,7 @@ int main()
 	numRows = 1;
 	total = 1;
 
-	triangleFile.open("problem18.txt");
+	triangleFile.open("problem67.txt");
 	while(!triangleFile.eof())
 	{
 		triangleFile >> temp;
