@@ -74,15 +74,6 @@ int valueOfHand(string hand[5])
 			suits[3]++;
 	}
 
-	/*
-	cout << endl << "Values: [ ";
-	for(i=0;i<13;i++)
-	{
-		cout << i << ":" << values[i] << " ";
-	}
-	cout << "]" << endl;
-	*/
-
 	//No need to check if they have high card
 
 	//Check for one pair
@@ -384,88 +375,6 @@ int main()
 		if(hand1val == hand2val)
 		{
 			int tiebreak = tieBreak(hand1,hand2,hand1val);
-
-			/*
-			cout << "Hand1: [ ";
-			for(i=0;i<5;i++)
-				cout << hand1[i] << " ";
-			cout << "] : Hand2: [ ";
-			for(i=0;i<5;i++)
-				cout << hand2[i] << " ";
-			cout << "]" << endl;
-
-			switch(hand1val)
-			{
-			case 1: //Highest Value
-				cout << "Highest Value Card";
-				break;
-			case 2: //One Pair
-				cout << "One Pair";
-				break;
-			case 3: //Two Pairs
-				cout << "Two Pairs";
-				break;
-			case 4: //Three of a Kind
-				cout << "Three of a Kind";
-				break;
-			case 5: //Straight
-				cout << "Straight";
-				break;
-			case 6: //Flush
-				cout << "Flush";
-				break;
-			case 7: //Full House
-				cout << "Full House";
-				break;
-			case 8: //Four of a Kind
-				cout << "Four of a Kind";
-				break;
-			case 9: //Straight Flush
-				cout << "Straight Flush";
-				break;
-			case 10: //Royal Flush
-				cout << "Royal Flush";
-				break;
-			}
-
-			cout << " : ";
-
-			switch(hand2val)
-			{
-			case 1: //Highest Value
-				cout << "Highest Value Card";
-				break;
-			case 2: //One Pair
-				cout << "One Pair";
-				break;
-			case 3: //Two Pairs
-				cout << "Two Pairs";
-				break;
-			case 4: //Three of a Kind
-				cout << "Three of a Kind";
-				break;
-			case 5: //Straight
-				cout << "Straight";
-				break;
-			case 6: //Flush
-				cout << "Flush";
-				break;
-			case 7: //Full House
-				cout << "Full House";
-				break;
-			case 8: //Four of a Kind
-				cout << "Four of a Kind";
-				break;
-			case 9: //Straight Flush
-				cout << "Straight Flush";
-				break;
-			case 10: //Royal Flush
-				cout << "Royal Flush";
-				break;
-			}
-			cout << endl;
-			cout << "Winner: Player " << tiebreak << endl;
-			*/
 
 			if(tiebreak == 0)
 			{
