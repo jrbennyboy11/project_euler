@@ -58,23 +58,31 @@ void vectAdd(vector<int> *vect, int num)
 int main()
 {
 	vector<int> vect;
-	unsigned int bouncyNumbers;
+	unsigned int nonBouncyNumbers;
 	int i;
+	int j;
 
-	bouncyNumbers = 0;
+	nonBouncyNumbers = 0;
+	j=1;
 
-	for(i=0;i<11;i++)
+	for(i=0;i<101;i++)
 		vect.push_back(0);
 
 	while(vect[0] == 0)
 	{
 		vectAdd(&vect,1);
 
-		if(!(isIncreasingVect(vect)) && !(isDecreasingVect(vect)))
-			bouncyNumbers++;
+		if(vect[100-j] != 0)
+		{
+			cout << "Non-bouncy Numbers below 10^" << j << ": " << nonBouncyNumbers << endl;
+			j++;
+		}
+
+		if(isIncreasingVect(vect) || isDecreasingVect(vect))
+			nonBouncyNumbers++;
 	}
 
-	cout << "Bouncy numbers: " << bouncyNumbers << endl;
+	cout << "Non-bouncy numbers below 10^100: " << nonBouncyNumbers << endl;
 
 	return 1;
 }
