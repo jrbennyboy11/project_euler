@@ -44,15 +44,13 @@ bool is_pandigital(unsigned long long num)
 	
 	while(numCpy >= 10)
 	{
-		if(numCpy%10 == 0)
+		int temp = numCpy%10;
+		
+		if(temp == 0)
 			return false;
+		else
+			contains[i-1] = true;
 		numDigits++;
-		numCpy/=10;
-	}
-	numCpy = num;
-	while(numCpy >= 10)
-	{
-		contains[(numCpy%10)-1] = true;
 		numCpy/=10;
 	}
 	contains[numCpy-1] = true;
