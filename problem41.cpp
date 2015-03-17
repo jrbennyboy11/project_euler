@@ -14,11 +14,12 @@ int main()
 	
 	primeNum = 0;
 	largestPandigital = 0;
-	
+
 	primes.open("primes.txt");
 	while(!primes.eof() && primeNum < 1000000000)
 	{
 		primes >> primeNum;
+		//cout << "Checking " << primeNum << endl;
 		if(is_pandigital(primeNum))
 		{
 			cout << "Largest Pandigital Prime: " << primeNum << endl;
@@ -48,7 +49,7 @@ bool is_pandigital(unsigned long long num)
 		if(temp == 0)
 			return false;
 		else
-			contains[i-1] = true;
+			contains[temp-1] = true;
 		numDigits++;
 		numCpy/=10;
 	}
