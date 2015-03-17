@@ -3,55 +3,96 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <climits>
 using namespace std;
 
-void generate_primes(unsigned long long start, unsigned long long end);
-string ull_to_string(unsigned long long num);
+void generate_primes();
+unsigned long long digitSum(unsigned long long num);
+//string ull_to_string(unsigned long long num);
+
+//http://usablealgebra.landmark.edu/algebra/factoring/divisibility-rules.php
 
 int main()
-{
-	unsigned long long start;
-	unsigned long long end;
-	
-	start = 0;
-	end = 1000000;
-	
-	generate_primes(start, end);
+{	
+	generate_primes();
 }
 
-//Generates prims from start to end-1
-void generate_primes(unsigned long long start, unsigned long long end)
+void generate_primes()
 {
+	ifstream primes_in;
 	ofstream primes;
 	string filename;
+	unsigned long long start;
 	unsigned long long i;
 	unsigned long long j;
 	bool prime;
 	
-	filename = "primes_" + ull_to_string(start) + "_to_" + ull_to_string(end) + ".txt";
+	filename = "primes.txt";
+	start = 0;
 	i = 0;
 	prime = true;
 	
-	primes.open(filename.c_str());
-	for(i=start;i<end;i++)
+	primes_in.open(filename.c_str());
+	while(!primes_in.eof())
 	{
+		primes_in >> start;
+	}
+	cout << "Start: " << start << endl;
+	primes_in.close();
+	
+	primes.open(filename.c_str(), std::ofstream::out | std::ofstream::app);
+	i = start;
+	while(i < ULLONG_MAX)
+	{
+		i++;
 		prime = true;
 		
-		if(i%10000 == 0)
-			cout << "Generated primes up to: " << i << endl;
-		
-		for(j=2;j<=i/2 && prime;j++)
+		if(i > 10)
+		{
+			unsigned int temp = i%10;
+			if(temp==0 || temp==2 || temp==4 || temp==5 || temp==6 || temp==8)
+				prime = false;
+			else
+			{
+				unsigned long long digit_sum = digitSum(i);
+				if(digit_sum%3 == 0)
+					prime = false;
+			}
+			
+			
+		}
+		for(j=2;j*j<i && prime;j++)
 			if(i%j==0)
 				prime = false;
 		
 		if(prime)
+		{
 			primes << i << endl;
+			cout << "Prime Generated: " << i << endl;
+		}
 	}
 	
-	cout << "Results written to " << filename << endl;
+	cout << "Unsigned Long Long Max Value Reached" << endl;
 	primes.close();
 }
 
+unsigned long long digitSum(unsigned long long num)
+{
+	unsigned long long sum;
+	unsigned long long numCpy;
+	sum = 0;
+	numCpy = num;
+	
+	while(numCpy >= 10)
+	{
+		sum += numCpy%10;
+		numCpy/=10;
+	}
+	sum += numCpy;
+	
+	return sum;
+}
+/*
 string ull_to_string(unsigned long long num)
 {
 	unsigned long long numCpy;
@@ -79,3 +120,4 @@ string ull_to_string(unsigned long long num)
 	
 	return numStringReverse;
 }
+*/
