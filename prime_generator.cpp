@@ -17,6 +17,10 @@ int main()
 	generate_primes();
 }
 
+/*
+ * This function assumes that primes.text has all the primes
+ * up to 10 already in it. Will fail otherwise.
+ */
 void generate_primes()
 {
 	ifstream primes_in;
@@ -29,7 +33,7 @@ void generate_primes()
 	
 	filename = "primes.txt";
 	start = 0;
-	i = 0;
+	i = 3;
 	prime = true;
 	
 	primes_in.open(filename.c_str());
@@ -44,24 +48,19 @@ void generate_primes()
 	i = start;
 	while(i < ULLONG_MAX)
 	{
-		i++;
+		i+=2;
 		prime = true;
 		
-		if(i > 10)
+		unsigned int temp = i%10;
+		if(temp!=1 && temp!=3 && temp!=7 && temp!=9)
+			prime = false;
+		else
 		{
-			unsigned int temp = i%10;
-			if(temp==0 || temp==2 || temp==4 || temp==5 || temp==6 || temp==8)
+			unsigned long long digit_sum = digitSum(i);
+			if(digit_sum%3 == 0)
 				prime = false;
-			else
-			{
-				unsigned long long digit_sum = digitSum(i);
-				if(digit_sum%3 == 0)
-					prime = false;
-			}
-			
-			
 		}
-		for(j=2;j*j<i && prime;j++)
+		for(j=3;j*j<i && prime;j++)
 			if(i%j==0)
 				prime = false;
 		
