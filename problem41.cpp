@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-#include <string>
 using namespace std;
 
 bool is_pandigital(unsigned long long num);
