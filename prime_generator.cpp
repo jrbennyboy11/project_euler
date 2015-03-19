@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <climits>
+#include <primesieve.hpp>
 using namespace std;
 
 void generate_primes();
@@ -11,67 +12,28 @@ unsigned long long digitSum(unsigned long long num);
 //string ull_to_string(unsigned long long num);
 
 //http://usablealgebra.landmark.edu/algebra/factoring/divisibility-rules.php
+//https:/primes.utm.edu/howmany.html
 
 int main()
-{	
-	generate_primes();
-}
-
-/*
- * This function assumes that primes.text has all the primes
- * up to 10 already in it. Will fail otherwise.
- */
-void generate_primes()
 {
-	ifstream primes_in;
 	ofstream primes;
-	string filename;
-	unsigned long long start;
-	unsigned long long i;
-	unsigned long long j;
-	bool prime;
+	unsigned long long max;
+	primesieve::iterator pi;
+	uint64_t prime;	
+
+	max = 10000000;
+	primes.open("primes_0_1000000.txt");
 	
-	filename = "primes.txt";
-	start = 0;
-	i = 3;
-	prime = true;
-	
-	primes_in.open(filename.c_str());
-	while(!primes_in.eof())
+	while(prime = pi.next_prime())
 	{
-		primes_in >> start;
-	}
-	cout << "Start: " << start << endl;
-	primes_in.close();
-	
-	primes.open(filename.c_str(), std::ofstream::out | std::ofstream::app);
-	i = start;
-	while(i < ULLONG_MAX)
-	{
-		i+=2;
-		prime = true;
-		
-		unsigned int temp = i%10;
-		if(temp!=1 && temp!=3 && temp!=7 && temp!=9)
-			prime = false;
-		else
+		primes << prime << endl;
+		if(prime >= max)
 		{
-			unsigned long long digit_sum = digitSum(i);
-			if(digit_sum%3 == 0)
-				prime = false;
-		}
-		for(j=3;j*j<i && prime;j++)
-			if(i%j==0)
-				prime = false;
-		
-		if(prime)
-		{
-			primes << i << endl;
-			cout << "Prime Generated: " << i << endl;
+			cout << "Generated all primes below " << max << endl;
+			break;
 		}
 	}
-	
-	cout << "Unsigned Long Long Max Value Reached" << endl;
+
 	primes.close();
 }
 
