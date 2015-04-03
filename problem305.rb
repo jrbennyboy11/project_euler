@@ -23,7 +23,7 @@ def starting_position(n)
 		if  iString.index(n.to_s) != nil
 			numOccurances += 1
 			if numOccurances != n
-				iString = iString[iString.index(n.to_s)+n.to_s.length()..iString.length()]
+				iString = iString[iString.index(n.to_s)+1..iString.length()]
 			end
 		end
 		
