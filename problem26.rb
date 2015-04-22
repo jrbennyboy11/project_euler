@@ -1,5 +1,4 @@
 def decimal_val(numerator,denominator,num_places)
-
 	n = numerator
 	d = denominator
 	dp = 0
@@ -42,7 +41,6 @@ def decimal_val(numerator,denominator,num_places)
 end
 
 def cycle_length(num)
-	
 	numS = num.to_s
 	index = numS.index('(')
 	cl = 0
