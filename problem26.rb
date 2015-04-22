@@ -27,8 +27,6 @@ def decimal_val(numerator,denominator,num_places)
 			retString = retString[0...index+1] + "(" + retString[index+1...retString.length] + ")"
 			return retString
 		end
-		#puts nVals
-		#puts "--------------"
 		
 		retString += (n/d).floor.to_s
 		n = n%d
