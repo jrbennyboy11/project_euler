@@ -95,7 +95,7 @@ def count_ways(arr)
 end
 
 money = [1,0,0,0,0,0,0,0] #200p, 100p, 50p, 20p, 10p, 5p, 2p, 1p
-puts "2 pounds can be made #{count_ways(money,0)} ways"
+puts "2 pounds can be made #{count_ways(money)} ways"
 
 =begin
 	200
