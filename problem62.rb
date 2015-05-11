@@ -4,6 +4,8 @@ def get_digit_array(num)
 	return arr
 end
 
+beginning_time = Time.now
+
 num_times = Hash.new(0)
 lowest_val = Hash.new(0)
 found = false
@@ -22,3 +24,6 @@ while(!found)
 		puts "Solution: #{lowest_val[currArr]}"
 	end
 end
+
+end_time = Time.now
+puts "Time elapsed #{(end_time - beginning_time)*1000} milliseconds"
