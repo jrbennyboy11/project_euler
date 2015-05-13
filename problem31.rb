@@ -1,38 +1,59 @@
-num_ways = 1
-money = [0,0,0,0,0,0,0,200] #200p, 100p, 50p, 20p, 10p, 5p, 2p, 1p
-i = 0
+#73682
 
-while(money[0] == 0)
-	puts "[#{money[0]}, #{money[1]}, #{money[2]}, #{money[3]}, #{money[4]}, #{money[5]}, #{money[6]}, #{money[7]}, ]"
-
-	if(money[1] >= 2) #100p
-		money[0] += 1
-		money[1] -= 2
-	elsif(money[2] >= 2) #50p
-		money[1] += 1
-		money[2] -= 2
-	elsif(money[3] >= 2 && money[4] >= 1) #20p
-		money[2] += 1
-		money[3] -= 2
-		money[4] -= 1
-	elsif(money[4] >= 2) #10p
-		money[3] += 1
-		money[4] -= 2
-	elsif(money[5] >= 2) #5p
-		money[4] += 1
-		money[5] -= 2
-	elsif(money[6] >= 2 && money[7] >= 1) #2p
-		money[5] += 1
-		money[6] -= 2
-		money[7] -= 1
-	else #1p
-		money[6] += 1
-		money[7] -= 2
+def num_ways(money, ival)
+	money_copy = Array.new(8)
+	money_copy = money
+	i = ival
+	count = 1
+	
+	while i<7
+		while money_copy[i] > 0
+			print money_copy
+			puts ""
+			if i == 0
+				money_copy[0] -= 1
+				money_copy[1] += 2
+				count += num_ways(money_copy,1)
+			end
+			if i == 1
+				money_copy[1] -= 1
+				money_copy[2] += 2
+				count += num_ways(money_copy,2)
+			end
+			if i == 2
+				money_copy[2] -= 1
+				money_copy[3] += 2
+				money_copy[4] += 1
+				count += num_ways(money_copy,3)
+			end
+			if i == 3
+				money_copy[3] -= 1
+				money_copy[4] += 2
+				count += num_ways(money_copy,4)
+			end
+			if i == 4
+				money_copy[4] -= 1
+				money_copy[5] += 2
+				count += num_ways(money_copy,5)
+			end
+			if i == 5
+				money_copy[5] -= 1
+				money_copy[6] += 2
+				money_copy[7] += 1
+				count += num_ways(money_copy,6)
+			end
+			if i == 6
+				money_copy[6] -= 1
+				money_copy[7] += 2
+				count += 1
+			end
+		end
+		
+		i += 1 
 	end
-
-	num_ways += 1 
+	
+	return count
 end
 
-puts "[#{money[0]}, #{money[1]}, #{money[2]}, #{money[3]}, #{money[4]}, #{money[5]}, #{money[6]}, #{money[7]}, ]"
-
-puts "2 pounds can be made #{num_ways} different ways"
+money = [1,0,0,0,0,0,0,0] #200p, 100p, 50p, 20p, 10p, 5p, 2p, 1p
+puts "Num ways: #{num_ways(money,0)}"
