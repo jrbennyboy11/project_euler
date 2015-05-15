@@ -27,35 +27,27 @@ primes.keys.each do |prime|
 end
 
 masterHash.keys.each do |set|
-	print set
-	puts ""
+	#print set
+	#puts ""
 	
-	#need to figure out, from the masterHash.keys, which set has 3 numbers that are the same distance apart
-	
-=begin
-	dif = Hash.new(0)
+	dif = Hash.new(Array.new)
 	i = 0
 	while i < set.length
 		j = i+1
 		while j < set.length
-			dif[set[j].to_i-set[i].to_i] += 1
+			difference = set[j].to_i-set[i].to_i
+			dif[difference] += [set[i].to_i,set[j].to_i]
 			j += 1
 		end
 		i += 1
 	end
 	
-	set.each do |x|
-		tHash = Hash.new(0)
-		dif.keys.each do |y|
-			if set[x+y] == 1
-				tHash[x] = 1
-				tHash[x+y] = 1
-			end
-		end
-		if tHash.keys.length >= 3
-			print tHash.keys
-			puts ""
+	dif.each_value do |x|
+		if x.length != x.uniq.length
+			print x.uniq
+			print " | "
+			print dif.key(x)
+			puts "\n"
 		end
 	end
-=end
 end
