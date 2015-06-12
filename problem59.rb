@@ -56,11 +56,16 @@ while i < 26
 	i += 1
 end
 
-puts "There are #{decrypted_messages.length} potential messages"
+real_message_key = -1
+the_count = 0
 
 decrypted_messages.each_pair do |key,val|
-	if val.count("the") > 1
-		puts val
-		puts "Sum of ASCII Values: #{key}"
+	num_thes = val.count(" the ")
+	if num_thes > the_count
+		the_count = num_thes
+		real_message_key = key
 	end
 end
+
+puts "\n#{decrypted_messages[real_message_key]}"
+puts "\nSum of ASCII Values: #{real_message_key}\n\n"
