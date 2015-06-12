@@ -28,16 +28,19 @@ def decrypt_message(message, pass)
 	return message.map{|c| c^pass[it = (it+1)%pass.length]}
 end
 
-#messages is a hash table of decrypted messages as strings
-#returns the key of the message containing the most "the"s and "and"s
-def most_thes_ands(messages)
+#messages is a hash table in the form of: 'Sum of the ASCII Values of a decrypted message' => decrypted message as string
+#returns the key of the message containing the most common words from the common words array
+def most_common_words(messages)
 	most = 0
 	most_key = 0
+	common_words = ["the","and","at","a","is"]
 
 	messages.each_pair do |key,val|
-		count = val.count(" the ") + val.count(" and ")
-		if count > most
-			most = count
+		common_count = 0
+		common_words.each{|word| common_count += val.count(" #{word} ")}
+
+		if common_count > most
+			most = common_count
 			most_key = key
 		end
 	end
@@ -60,7 +63,7 @@ decrypted_messages = Hash.new
 	end
 end
 
-real_message_key = most_thes_ands(decrypted_messages)
+real_message_key = most_common_words(decrypted_messages)
 
 puts "\nDecrypted Message: \n\n*------------------*"
 puts "#{decrypted_messages[real_message_key]}\n*------------------*\n\n"
