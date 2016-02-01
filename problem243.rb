@@ -9,7 +9,7 @@ require 'rational'
 
 resilience_below = Rational(15499,94744)
 current_resilience = Rational(1)
-denominator = 12
+denominator = 1410000 #Calculated up to 1410000
 
 tenk_start = Time.now
 tenk_end = Time.now
