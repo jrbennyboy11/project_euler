@@ -5,6 +5,8 @@
 	
 	I solved this one by taking the information they gave me about the first 8 numerators and denominators and comparing them side by side in excel. I noticed that the numerator was going up by 2 times the denominator, and the denominator was going up by 1 tims the numerator, each time. This made writing a program extremely easy. 
 =end
+require 'benchmark'
+require 'rational'
 
 def nth_sqrt_expansion(num, expansion)
 	i = 1
@@ -28,9 +30,6 @@ def nth_sqrt_expansion(num, expansion)
 =end
 	return Rational(numerator,denominator)
 end
-
-require 'benchmark'
-require 'rational'
 
 =begin
 #Code for testing the nth_sqrt_expansion function
