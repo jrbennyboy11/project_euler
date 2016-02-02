@@ -19,6 +19,25 @@ def array_to_int(arr)
 	return arr_int
 end
 
+#function for formatting time to look pretty
+def pretty_time(num_seconds)
+	temp = num_seconds	
+
+	hours = temp/3600
+	temp = temp%3600
+
+	minutes = temp/60
+	temp = temp%3600
+
+	if hours > 0
+		return "#{hours} Hours, #{minutes} Minutes, and #{temp} Seconds"
+	elsif minutes > 0
+		return "#{minutes} Minutes and #{temp} Seconds"
+	else
+		return "#{temp} Seconds"
+	end
+end
+
 primes = Array.new #array of prime numbers as integer arrays
 prime_vals = Array.new #array of prime numbers as integers
 
@@ -35,7 +54,7 @@ end
 prime_file.close
 
 end_time = Time.now #benchmark time to make arrays
-puts "Finished populating arrays - Time Taken: #{(end_time - beginning_time).ceil} seconds"
+puts "Finished populating arrays - Time Taken: #{pretty_time((end_time - beginning_time).ceil)}"
 
 starting_number = 900000 #number for threads to start on
 start_index = 0 #index for thread to start on
@@ -89,7 +108,7 @@ num_threads.times do |x|
 						sleep(5)
 
 						puts "\n\nBy replacing digit #{i} and #{j} of #{array_to_int(prime)}, you get an 8 prime value family"
-						puts "Execution time: #{(end_time - beginning_time).ceil} seconds"
+						puts "Execution time: #{pretty_time((end_time - beginning_time).ceil)}"
 						sleep(5)	
 						exit
 					end
@@ -103,7 +122,7 @@ num_threads.times do |x|
 			onep_progress -= 1
 			if onep_progress == 0
 				onep_end = Time.now
-				puts "Thread #{thread_num}: Checked #{percent_done}% of primes. Time elapsed: #{(onep_end - onep_start).ceil} seconds"
+				puts "Thread #{thread_num}: Checked #{percent_done}% of primes. Time elapsed: #{pretty_time((onep_end - onep_start).ceil)}"
 				onep_progress = one_percent
 				percent_done += 1
 			end
@@ -111,7 +130,7 @@ num_threads.times do |x|
 		
 		#If no 8 prime family is found
 		end_time = Time.now
-		puts "Thread #{thread_num}: No 8 prime family found. - Execution time: #{(end_time - beginning_time).ceil} seconds"
+		puts "Thread #{thread_num}: No 8 prime family found. - Execution time: #{pretty_time((end_time - beginning_time).ceil)}"
 	}
 	start_index = primes_range[x]
 	sleep(1)
