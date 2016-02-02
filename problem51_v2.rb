@@ -70,21 +70,21 @@ end
 primes_range[num_threads-1] = prime_vals.length
 
 num_threads.times do |x|
-	prime_threads[x] = Thread.new(x,primes[start_index..primes_range[x]], prime_vals, *prime_threads){
-		|thread_num,my_primes,primeList|
+	prime_threads[x] = Thread.new(x,*primes[start_index..primes_range[x]], primes_range[x]-start_index, *prime_vals, *prime_threads){
+		|thread_num,*my_primes,length,*primeList,*pt|
 
 		puts "Thread #{thread_num} - Checking primes: #{my_primes[0]} to #{my_primes[my_primes.length-1]}"
 		percent_done = 1
-		one_percent = my_primes.length/100
+		one_percent = length/100
 		onep_progress = one_percent
 		beginning_time = Time.now
 		onep_start = Time.now
 		
 		my_primes.each do |prime| #itterate through each prime. primes are in array form
 			i = 0
-			while i < prime.length-1 #first digit index
+			while i < length-1 #first digit index
 				j = i+1
-				while j < prime.length #2nd digit index
+				while j < length #2nd digit index
 					family_size = 0
 		
 					10.times do |d| #digit to be substituted in
