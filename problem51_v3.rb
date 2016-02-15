@@ -111,15 +111,15 @@ num_threads.times do |x|
 
 							semaphore.synchronize do
 								ph[p_hash] += 1
-								p_int = array_to_int(temp)
+								#p_int = array_to_int(temp)
 								#af[p_hash] = af[p_hash] + [p_int]
 
 								if ph[p_hash] == 1
-									sph[p_hash] = temp									
+									sph[p_hash] = array_to_int(temp)	
 								end
 							end
 							
-							if ph[p_hash] == prime_family
+							if ph[p_hash] >= prime_family
 								end_time = Time.now
 								solution_val = array_to_int(sph[p_hash])
 								puts "Thread #{ti}: Solution found! - Execution time: #{pretty_time((end_time - beginning_time).ceil)}"
@@ -139,7 +139,7 @@ num_threads.times do |x|
 			end
 		end
 
-		if solution_val == 0
+		if !within_range
 			end_time = Time.now
 			puts "Thread #{ti}: No #{prime_family} prime family found. - Execution time: #{pretty_time((end_time - beginning_time).ceil)}"		
 		end
