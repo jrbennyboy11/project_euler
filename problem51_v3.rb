@@ -143,6 +143,7 @@ num_threads.times do |x|
 			end_time = Time.now
 			puts "Thread #{ti}: No #{prime_family} prime family found. - Execution time: #{pretty_time((end_time - beginning_time).ceil)}"		
 		end
+
 		prime_file.close
 	end
 	sleep(1)
