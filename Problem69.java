@@ -6,14 +6,15 @@ import java.util.Iterator;
  * Created by bbarnett on 1/11/2017.
  */
 public class Problem69 {
-    public static void main(String[] args)
+    public static ArrayList<ArrayList<Integer>> factors;
+
+    public static void main(String[] args) throws InterruptedException
     {
         int i;
         int j;
         final int MAX_NUMBER = 1000000; //Maximum number to go up to for problem 69
-        int max_solution_n = 0; //n with maximum solution to problem69 under MAX_NUMBER
-        double max_solution = 0.0; //Maximum solution to problem69 under MAX_NUMBER
-        ArrayList<ArrayList<Integer>> factors = new ArrayList<ArrayList<Integer>>();
+        final int NUM_THREADS = 4;
+        factors = new ArrayList<ArrayList<Integer>>();
 
         //Generate the factors for all numbers 2 - MAX_NUMBER
         for(i=2;i<=MAX_NUMBER; i++)
@@ -43,34 +44,65 @@ public class Problem69 {
         System.out.println("------");
         */
 
-        for(i=0;i<factors.size();i++)
-        {
-            if((i+2)%100000 == 0)
-                System.out.println("Completed up to " + i);
+        PrimeThread[] threads = new PrimeThread[NUM_THREADS];
+        int fractOfRange = MAX_NUMBER/NUM_THREADS;
 
-            ArrayList<Integer> currNumFacts = factors.get(i);
-            double n = 1.0 * (i+2);
-            double phi_n = 1.0;
-
-            //System.out.print(i+2 + ": ");
-            for(j=i-1;j>=0;j--)
-            {
-                ArrayList<Integer> prevNumFacts = factors.get(j);
-                if(Collections.disjoint(currNumFacts, prevNumFacts))
-                {
-                    //System.out.print(j+2 + " ");
-                    phi_n += 1.0;
-                }
-            }
-            //System.out.println();
-            double current_solution = n / phi_n;
-            if (current_solution > max_solution)
-            {
-                max_solution = current_solution;
-                max_solution_n = i + 2;
-            }
+        for(i=0;i<NUM_THREADS;i++) {
+            threads[i] = new PrimeThread(fractOfRange * i, fractOfRange * (i + 1));
+            threads[i].run();
         }
 
-        System.out.println("Max ratio <= " + MAX_NUMBER + ": " + max_solution_n + " | " + max_solution);
+        for(i=0;i<threads.length;i++)
+            threads[i].join();
+
+
+    }
+
+    public static class PrimeThread extends Thread{
+        int min;
+        int max;
+
+        public PrimeThread(){}
+
+        public PrimeThread(int minNum, int maxNum)
+        {
+            min = minNum;
+            max = maxNum;
+        }
+
+        @Override
+        public void run()
+        {
+            System.out.println("Thread started. Range: " + min + " - " + max);
+
+            int max_solution_n = 0; //n with maximum solution to problem69 under MAX_NUMBER
+            double max_solution = 0.0; //Maximum solution to problem69 under MAX_NUMBER
+
+            for(int i=min;i<max;i+=2)
+            {
+                ArrayList<Integer> currNumFacts = factors.get(i);
+                double n = 1.0 * (i+2);
+                double phi_n = 1.0;
+
+                //System.out.print(i+2 + ": ");
+                for(int j=i-1;j>=0;j--)
+                {
+                    ArrayList<Integer> prevNumFacts = factors.get(j);
+                    if(Collections.disjoint(currNumFacts, prevNumFacts))
+                        phi_n += 1.0;
+                }
+                //System.out.println();
+                double current_solution = n / phi_n;
+                if (current_solution > max_solution)
+                {
+                    max_solution = current_solution;
+                    max_solution_n = i + 2;
+                }
+            }
+
+            System.out.println("Thread finished. Range: " + min + " - " + max);
+            System.out.println("Max n | max ratio: " + max_solution_n + " | " + max_solution);
+            System.out.println();
+        }
     }
 }
