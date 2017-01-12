@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by bbarnett on 1/11/2017.
@@ -13,7 +14,7 @@ public class Problem69 {
         int i;
         int j;
         final int MAX_NUMBER = 1000000; //Maximum number to go up to for problem 69
-        final int NUM_THREADS = 4;
+        final int NUM_THREADS = 10;
         factors = new ArrayList<ArrayList<Integer>>();
 
         //Generate the factors for all numbers 2 - MAX_NUMBER
@@ -49,7 +50,7 @@ public class Problem69 {
 
         for(i=0;i<NUM_THREADS;i++) {
             threads[i] = new PrimeThread(fractOfRange * i, fractOfRange * (i + 1));
-            threads[i].run();
+            threads[i].start();
         }
 
         for(i=0;i<threads.length;i++)
@@ -74,6 +75,12 @@ public class Problem69 {
         public void run()
         {
             System.out.println("Thread started. Range: " + min + " - " + max);
+
+			try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
 
             int max_solution_n = 0; //n with maximum solution to problem69 under MAX_NUMBER
             double max_solution = 0.0; //Maximum solution to problem69 under MAX_NUMBER
