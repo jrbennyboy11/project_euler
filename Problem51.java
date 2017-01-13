@@ -75,6 +75,7 @@ public class Problem51 {
         scanner.close();
 
         System.out.println("Finished loading into memory and filtering all primes between " + MIN_PRIME + " & " + MAX_PRIME);
+        System.out.println("Total primes in this range: " + (list0.size() + list1.size() +list2.size() +list3.size() +list4.size() +list5.size() +list6.size() +list7.size() +list8.size() +list9.size()));
         System.out.println("Beginning " + PATTERN_SIZE + " prime pattern search...");
         System.out.println();
 
