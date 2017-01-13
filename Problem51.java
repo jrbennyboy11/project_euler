@@ -1,32 +1,46 @@
 import java.io.*;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
- * Created by bbarnett on 1/11/2017.
+ * Created by Ben Barnett on 1/11/2017.
+ * https://projecteuler.net/problem=51
  */
+
 public class Problem51 {
-    public static void main(String[] args) throws FileNotFoundException, IOException
+    public static void main(String[] args) throws IOException
     {
-        final int MIN_PRIME = 10000;
-        final int MAX_PRIME = 100000;
-        final int PATTERN_SIZE = 7;
+        final int MIN_PRIME = 100000000;
+        final int MAX_PRIME = 1000000000; //Max is 10000000000
+        final int PATTERN_SIZE = 8;
         Scanner scanner = new Scanner(new File("C://Users/bbarnett/Desktop/project_euler/src/primes_to_10_billion.txt"));
+        Integer p;
         int prime;
         int i;
         int j;
         int k;
 
-        ArrayList<Integer> list0 = new ArrayList<Integer>();
-        ArrayList<Integer> list1 = new ArrayList<Integer>();
-        ArrayList<Integer> list2 = new ArrayList<Integer>();
-        ArrayList<Integer> list3 = new ArrayList<Integer>();
-        ArrayList<Integer> list4 = new ArrayList<Integer>();
-        ArrayList<Integer> list5 = new ArrayList<Integer>();
-        ArrayList<Integer> list6 = new ArrayList<Integer>();
-        ArrayList<Integer> list7 = new ArrayList<Integer>();
-        ArrayList<Integer> list8 = new ArrayList<Integer>();
-        ArrayList<Integer> list9 = new ArrayList<Integer>();
+        /*
+            Each list HastSet object is a HashSet containing all the primes between
+            MIN_PRIME and MAX_PRIME that have a repeating digit. list 0 is for repeating 0s,
+            list1 is for repeating 1s, etc.
+         */
+
+        HashSet<Integer> list0 = new HashSet<>();
+        HashSet<Integer> list1 = new HashSet<>();
+        HashSet<Integer> list2 = new HashSet<>();
+        HashSet<Integer> list3 = new HashSet<>();
+        HashSet<Integer> list4 = new HashSet<>();
+        HashSet<Integer> list5 = new HashSet<>();
+        HashSet<Integer> list6 = new HashSet<>();
+        HashSet<Integer> list7 = new HashSet<>();
+        HashSet<Integer> list8 = new HashSet<>();
+        HashSet<Integer> list9 = new HashSet<>();
+        HashSet<Integer> the_pattern = new HashSet<>();
+        Iterator<Integer> hsitt;
+
+        System.out.println("Loading into memory all primes with a repeating digit between "+ MIN_PRIME + " & " + MAX_PRIME);
 
         while(scanner.hasNextInt() && (prime = scanner.nextInt()) <= MAX_PRIME)
         {
@@ -34,8 +48,10 @@ public class Problem51 {
             {
                 String prime_string = "" + prime;
 
+                //Checking if there are more at least 2 0s in the prime number
                 if(prime_string.length() - prime_string.replaceAll("0","").length() >= 2)
                     list0.add(prime);
+                //Checking if there are 2 1s in the prime number and etc for the rest of these statements
                 if(prime_string.length() - prime_string.replaceAll("1","").length() >= 2)
                     list1.add(prime);
                 if(prime_string.length() - prime_string.replaceAll("2","").length() >= 2)
@@ -58,115 +74,259 @@ public class Problem51 {
         }
         scanner.close();
 
-        int index0 = -1;
-        int index1 = -1;
-        int index2 = -1;
-        int index3 = -1;
-        int index4 = -1;
-        int index5 = -1;
-        int index6 = -1;
-        int index7 = -1;
-        int index8 = -1;
-        int index9 = -1;
+        System.out.println("Finished loading into memory and filtering all primes between " + MIN_PRIME + " & " + MAX_PRIME);
+        System.out.println("Beginning " + PATTERN_SIZE + " prime pattern search...");
+        System.out.println();
 
         int num_digits = String.valueOf(MIN_PRIME).length();
 
-        /*
-            Need to change this code to instead of finding 1 that matches a pattern, find all in each group that
-            match the pattern and then somehow figure out if any of each subset are matching
-         */
+        //The following 2 for loops check every combination of 2 digit locations
+        for(i=0;i<num_digits;i++)
+        {
+            for(j = i + 1; j < num_digits; j++)
+            {
+                HashSet<Integer> pattern0 = new HashSet<>();
+                HashSet<Integer> pattern1 = new HashSet<>();
+                HashSet<Integer> pattern2 = new HashSet<>();
+                HashSet<Integer> pattern3 = new HashSet<>();
+                HashSet<Integer> pattern4 = new HashSet<>();
+                HashSet<Integer> pattern5 = new HashSet<>();
+                HashSet<Integer> pattern6 = new HashSet<>();
+                HashSet<Integer> pattern7 = new HashSet<>();
+                HashSet<Integer> pattern8 = new HashSet<>();
+                HashSet<Integer> pattern9 = new HashSet<>();
 
-        for(i=0;i<num_digits;i++) {
-            for (j = i + 1; j < num_digits; j++) {
-                for (k = 0; k < list0.size() && index0 == -1; k++)
-                    if (String.valueOf(list0.get(k)).charAt(i) == '0' && String.valueOf(list0.get(k)).charAt(j) == '0')
-                        index0 = k;
-                for (k = 0; k < list1.size() && index1 == -1; k++)
-                    if (String.valueOf(list1.get(k)).charAt(i) == '1' && String.valueOf(list1.get(k)).charAt(j) == '1')
-                        index1 = k;
-                for (k = 0; k < list2.size() && index2 == -1; k++)
-                    if (String.valueOf(list2.get(k)).charAt(i) == '2' && String.valueOf(list2.get(k)).charAt(j) == '2')
-                        index2 = k;
-                for (k = 0; k < list3.size() && index3 == -1; k++)
-                    if (String.valueOf(list3.get(k)).charAt(i) == '3' && String.valueOf(list3.get(k)).charAt(j) == '3')
-                        index3 = k;
-                for (k = 0; k < list4.size() && index4 == -1; k++)
-                    if (String.valueOf(list4.get(k)).charAt(i) == '4' && String.valueOf(list4.get(k)).charAt(j) == '4')
-                        index4 = k;
-                for (k = 0; k < list5.size() && index5 == -1; k++)
-                    if (String.valueOf(list5.get(k)).charAt(i) == '5' && String.valueOf(list5.get(k)).charAt(j) == '5')
-                        index5 = k;
-                for (k = 0; k < list6.size() && index6 == -1; k++)
-                    if (String.valueOf(list6.get(k)).charAt(i) == '6' && String.valueOf(list6.get(k)).charAt(j) == '6')
-                        index6 = k;
-                for (k = 0; k < list7.size() && index7 == -1; k++)
-                    if (String.valueOf(list7.get(k)).charAt(i) == '7' && String.valueOf(list7.get(k)).charAt(j) == '7')
-                        index7 = k;
-                for (k = 0; k < list8.size() && index8 == -1; k++)
-                    if (String.valueOf(list8.get(k)).charAt(i) == '8' && String.valueOf(list8.get(k)).charAt(j) == '8')
-                        index8 = k;
-                for (k = 0; k < list9.size() && index9 == -1; k++)
-                    if (String.valueOf(list9.get(k)).charAt(i) == '9' && String.valueOf(list9.get(k)).charAt(j) == '9')
-                        index9 = k;
+                //Checks if there are any primes with 2 0s where the 0s are at i & j
+                hsitt = list0.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '0' && String.valueOf(p).charAt(j) == '0')
+                        pattern0.add(p);
+                }
+                //Checks if there are any primes with 2 1s where the 1s are at i & j. Same thing for the rest of these while statements
+                hsitt = list1.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '1' && String.valueOf(p).charAt(j) == '1')
+                        pattern1.add(p);
+                }
+                hsitt = list2.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '2' && String.valueOf(p).charAt(j) == '2')
+                        pattern2.add(p);
+                }
+                hsitt = list3.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '3' && String.valueOf(p).charAt(j) == '3')
+                        pattern3.add(p);
+                }
+                hsitt = list4.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '4' && String.valueOf(p).charAt(j) == '4')
+                        pattern4.add(p);
+                }
+                hsitt = list5.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '5' && String.valueOf(p).charAt(j) == '5')
+                        pattern5.add(p);
+                }
+                hsitt = list6.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '6' && String.valueOf(p).charAt(j) == '6')
+                        pattern6.add(p);
+                }
+                hsitt = list7.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '7' && String.valueOf(p).charAt(j) == '7')
+                        pattern7.add(p);
+                }
+                hsitt = list8.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '8' && String.valueOf(p).charAt(j) == '8')
+                        pattern8.add(p);
+                }
+                hsitt = list9.iterator();
+                while(hsitt.hasNext())
+                {
+                    p = hsitt.next();
+                    if (String.valueOf(p).charAt(i) == '9' && String.valueOf(p).charAt(j) == '9')
+                        pattern9.add(p);
+                }
+
+                //Checks to see if there is at least 1 number that has a 0 at both i & j, a 1 at both i & j, etc
+                int patternSize = 0;
+                if(pattern0.size() > 0)
+                    patternSize++;
+                if(pattern1.size() > 0)
+                    patternSize++;
+                if(pattern2.size() > 0)
+                    patternSize++;
+                if(pattern3.size() > 0)
+                    patternSize++;
+                if(pattern4.size() > 0)
+                    patternSize++;
+                if(pattern5.size() > 0)
+                    patternSize++;
+                if(pattern6.size() > 0)
+                    patternSize++;
+                if(pattern7.size() > 0)
+                    patternSize++;
+                if(pattern8.size() > 0)
+                    patternSize++;
+                if(pattern9.size() > 0)
+                    patternSize++;
+
+                //If there is at least 1 number that has a 0 at both i & j, a 1 at both i & j, etc such that
+                //The there is a possible pattern of size PATERN_SIZE
+                if(patternSize >= PATTERN_SIZE)
+                {
+                    System.out.println("Possible " + PATTERN_SIZE + " prime pattern found by replacing digits " + i + " & " + j);
+
+                    int patternNum1 = 1;
+                    int patternNum2 = 1;
+
+                    for(k=0;k<num_digits-(i+1);k++, patternNum1 *= 10);
+                    for(k=0;k<num_digits-(j+1);k++, patternNum2 *= 10);
+
+                    int pattern = patternNum1 + patternNum2;
+
+                    System.out.println("Checking " + pattern0.size() + ", " + num_digits + " digit primes containing at least 2 0s");
+
+                    //Checks to see if it can make a PATTERN_SIZE sized pattern with any of the numbers with a 0
+                    //at its i & j index
+                    hsitt = pattern0.iterator();
+                    while(hsitt.hasNext())
+                    {
+                        the_pattern.clear();
+                        p = hsitt.next();
+                        the_pattern.add(p);
+
+                        if (the_pattern.size() >= (PATTERN_SIZE-9) && pattern1.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-8) && pattern2.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-7) && pattern3.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-6) && pattern4.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-5) && pattern5.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-4) && pattern6.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-3) && pattern7.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-2) && pattern8.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-1) && pattern9.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+
+                        if (the_pattern.size() >= PATTERN_SIZE) {
+                            System.out.println("Found " + PATTERN_SIZE + " prime pattern: ");
+                            System.out.println();
+                            hsitt = the_pattern.iterator();
+                            while(hsitt.hasNext())
+                                System.out.println(hsitt.next());
+                            System.exit(0);
+                        }
+                    }
+
+                    System.out.println("Checking " + pattern1.size() + ", " + num_digits + " digit primes containing at least 2 1s");
+
+                    //Checks to see if it can make a PATTERN_SIZE sized pattern with any of the numbers with a 1
+                    //at its i & j index
+                    hsitt = pattern1.iterator();
+                    while(hsitt.hasNext())
+                    {
+                        the_pattern.clear();
+                        p = hsitt.next();
+                        the_pattern.add(p);
+
+                        if (the_pattern.size() >= (PATTERN_SIZE-8) && pattern2.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-7) && pattern3.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-6) && pattern4.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-5) && pattern5.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-4) && pattern6.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-3) && pattern7.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-2) && pattern8.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-1) && pattern9.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+
+                        if (the_pattern.size() >= PATTERN_SIZE) {
+                            System.out.println("Found " + PATTERN_SIZE + " prime pattern: ");
+                            System.out.println();
+                            hsitt = the_pattern.iterator();
+                            while(hsitt.hasNext())
+                                System.out.println(hsitt.next());
+                            System.exit(0);
+                        }
+                    }
+
+                    System.out.println("Checking " + pattern2.size() + ", " + num_digits + " digit primes containing at least 2 2s");
+
+                    //Checks to see if it can make a PATTERN_SIZE sized pattern with any of the numbers with a 0
+                    //at its i & j index. Doesn't go beyond this because it's impossible to have an 8 number pattern
+                    //with only 3,4,5,6,7,8,9
+                    hsitt = pattern2.iterator();
+                    while(hsitt.hasNext())
+                    {
+                        the_pattern.clear();
+                        p = hsitt.next();
+                        the_pattern.add(p);
+
+                        if (the_pattern.size() >= (PATTERN_SIZE-7) && pattern3.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-6) && pattern4.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-5) && pattern5.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-4) && pattern6.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-3) && pattern7.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-2) && pattern8.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+                        if (the_pattern.size() >= (PATTERN_SIZE-1) && pattern9.contains(p + pattern))
+                            the_pattern.add(p + pattern);
+
+                        if (the_pattern.size() >= PATTERN_SIZE) {
+                            System.out.println("Found " + PATTERN_SIZE + " prime pattern: ");
+                            System.out.println();
+                            hsitt = the_pattern.iterator();
+                            while(hsitt.hasNext())
+                                System.out.println(hsitt.next());
+                            System.exit(0);
+                        }
+                    }
+
+                    System.out.println("No " + PATTERN_SIZE + " prime patterns found by replacing digits " + i + " & " + j);
+                    System.out.println();
+                }
             }
-
-            int patternSize = 0;
-            if (index0 != -1)
-                patternSize++;
-            if (index1 != -1)
-                patternSize++;
-            if (index2 != -1)
-                patternSize++;
-            if (index3 != -1)
-                patternSize++;
-            if (index4 != -1)
-                patternSize++;
-            if (index5 != -1)
-                patternSize++;
-            if (index6 != -1)
-                patternSize++;
-            if (index7 != -1)
-                patternSize++;
-            if (index8 != -1)
-                patternSize++;
-            if (index9 != -1)
-                patternSize++;
-
-            if (patternSize >= PATTERN_SIZE) {
-                if (index0 != -1)
-                    System.out.println(list0.get(index0));
-                if (index1 != -1)
-                    System.out.println(list1.get(index1));
-                if (index2 != -1)
-                    System.out.println(list2.get(index2));
-                if (index3 != -1)
-                    System.out.println(list3.get(index3));
-                if (index4 != -1)
-                    System.out.println(list4.get(index4));
-                if (index5 != -1)
-                    System.out.println(list5.get(index5));
-                if (index6 != -1)
-                    System.out.println(list6.get(index6));
-                if (index7 != -1)
-                    System.out.println(list7.get(index7));
-                if (index8 != -1)
-                    System.out.println(list8.get(index8));
-                if (index9 != -1)
-                    System.out.println(list9.get(index9));
-
-                System.out.println("-------");
-            }
-
-            index0 = -1;
-            index1 = -1;
-            index2 = -1;
-            index3 = -1;
-            index4 = -1;
-            index5 = -1;
-            index6 = -1;
-            index7 = -1;
-            index8 = -1;
-            index9 = -1;
         }
+
+        System.out.println("Pattern of size " + PATTERN_SIZE + " not found between " + MIN_PRIME + " & " + MAX_PRIME);
     }
 }
